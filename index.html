@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rye">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+<style>
+    
+.itemButton{
+
+  border: 1px solid darkgray;
+  background-color: wheat;
+  color: black;
+  font-size: 24px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  width:150px;
+  height:150px;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 10%;
+  padding: 4px 4px;
+}
+     
+
+.td {
+      width: 200px;
+      height: 200px;
+    }
+    
+ 
+
+.main {
+    padding: 5px 5px 5px 5px;
+    border: none;
+    width: 100%;
+    height: 100%;
+    color: black;
+    font-size: 200px;
+    text-align: center;
+    position: absolute;
+  
+    
+
+}
+
+
+
+.button {
+    background-color: black;
+    background-origin: none;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    font-size: 25px;
+    padding: 10px 10px 10px 10px;
+    width: 100px;
+    height: 55px;
+    position: relative;
+    left: 5px;
+}
+
+
+
+</style>
+</head>
+
+<div>
+  <h1><time>00:00:00</time></h1>
+  <button id="start"> <i class="fas fa-play"></i> </button>
+  <button  id="stop"><i class="fas fa-pause"></i></button>
+  <button id="clear"><i class="fas fa-trash-alt"></i></button>
+</div>
+
+<div class = "main">
+      <table id="myTable" cellspacing="25" ></table>
+   </div>
+ 
+
+
+
+<script>
+var counter = 1;
+var uLimit = inputMaxNumber();
+var seconds = 0, minutes = 0, hours = 0, t;
+
+function clickbt(id) {
+      document.getElementById(id).focus();
+    }
+
+
+
+var buttonNum = uLimit,
+  w = window.innerWidth,
+  rowButtonNumber = Math.floor(w / 200);
+
+var table = document.getElementById("myTable");
+
+for (var i = 0; i < buttonNum; i++) {
+  var tr = document.createElement("tr");
+  table.appendChild(tr);
+  for (var j = 0; j < rowButtonNumber; j++, i++) {
+    var td = document.createElement("td");
+    var btn = document.createElement("button");
+    btn.innerHTML = "Item " + (i + 1);
+    btn.id = "btn-" + i;
+    btn.className = "itemButton";
+    btn.onclick = function (itemsArray) { this.style.display = "none";};
+    if (i >= buttonNum) {
+      break;
+    } else {
+      td.appendChild(btn);
+      tr.appendChild(td);
+    }
+  }
+  i--;
+}
+
+
+
+function inputMaxNumber() {
+  var maxNum = prompt("Please enter the total number of items greater than 1:", "12");
+  if (maxNum == null || maxNum == "" ) {
+    alert("Oops :( - No number was entered! ");
+    inputMaxNumber();
+  } else {
+    maxNum = Number.parseInt(maxNum, 10);
+    if(maxNum < 2 || Number.isInteger(maxNum) == false){
+      alert("Oops :( - Please enter a valid number greater than 1! ");
+      inputMaxNumber();
+    }
+    
+  }
+  return maxNum;
+}
+
+
+function add() {
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes >= 60) {
+            minutes = 0;
+            hours++;
+        }
+    }
+    
+    document.getElementsByTagName('h1')[0].textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+    timer();
+}
+
+function timer() {
+    t = setTimeout(add, 1000);
+}
+
+
+
+/*timer();*/
+/* Start button */
+document.getElementById('start').onclick = timer;
+/* Stop button */
+document.getElementById('stop').onclick = function() {
+    clearTimeout(t);
+}
+/* Clear button */
+document.getElementById('clear').onclick = function() {
+    document.getElementsByTagName('h1')[0].textContent = "00:00:00";
+    seconds = 0; minutes = 0; hours = 0;
+}
+
+
+</script>
+
+</body>
+</html>
